@@ -70,6 +70,8 @@ def main():
                     print(e)
 
         board = create_board(rows, cols)
+        
+        clear_screen()
         print_board(board)
 
         full_board = is_board_full(board)
@@ -90,30 +92,17 @@ def main():
 
                     print("Prediction:")
                     print_colorful_board(board)
-
-            while True:
-                try:
-                    print(f"Available numbers: {nums}")
-                    num = int(input("Choose a number to place: "))
-                    if num not in nums:
-                        raise ValueError(
-                            "Invalid number. Choose a number in a available range."
-                        )
-                    break
-                except ValueError as e:
-                    print(e)
-
-            while True:
-                try:
-                    row = int(input(f"Choose a row (1-{rows-0}): ")) - 1
-                    col = int(input(f"Choose a column (1-{cols-0}): ")) - 1
-                    if not (0 <= row < rows and 0 <= col < cols):
-                        raise ValueError("Invalid position.")
-                    break
-                except ValueError as e:
-                    print(e)
-
-            player_turn(board, num, row, col)
+            
+            player_turn(board, nums)
+            
+            clear_screen()
+            
+            # points
+            score += check_lines(board)
+            
+            if level == 4:
+                enemy_score += enemy_turn(board, nums)
+            
             if is_board_full(board):
                 break
 
@@ -124,12 +113,7 @@ def main():
                 
             if is_board_full(board):
                 break
-
-            if level == 4:
-                enemy_score += enemy_turn(board, nums, enemy_score)
-
-            clear_screen()
-
+                
             print("After checking lines:")
 
             # points

@@ -1,10 +1,31 @@
-def player_turn(board, num, row, col):
-    if board[row][col] == "*":
-        board[row][col] = num
-    elif board[row][col] == " ":
-        board[row][col] = num
-    else:
-        print("That position is already taken. Try again.")
+def player_turn(board, nums):
+    
+    rows = len(board)
+    cols = len(board[0])
+    
+    while True:
+        try:
+            print(f"Available numbers: {nums}")
+            num = int(input("Choose a number to place: "))
+            if num not in nums:
+                raise ValueError("Invalid number. Choose a number in a available range.")
+            break
+        except ValueError as e:
+            print(e)
+
+    while True:
+        try:
+            row = int(input(f"Choose a row (1-{rows}): ")) - 1
+            col = int(input(f"Choose a column (1-{cols}): ")) - 1
+            if not (0 <= row < rows and 0 <= col < cols):
+                raise ValueError("Invalid position.")
+            if board[row][col] not in [" ", "*"]:
+                raise ValueError("That position is already taken. Try again.")
+            break
+        except ValueError as e:
+            print(e)
+
+    board[row][col] = num
 
 
 def check_lines(board):
